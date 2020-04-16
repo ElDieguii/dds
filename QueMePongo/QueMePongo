@@ -1,0 +1,64 @@
+class Prenda
+	categoria;
+	tipo;
+	clima;
+	material;
+	colorP;
+	colorS;
+	situacion;
+
+class Usuario
+	prendas[];
+	armario;
+	metodo ingresar_prenda(prenda){
+
+		if(!compatibilidadTipoCategoriaValida()){
+			throw new incopatibilidadTipoCategoriaException("El tipo de la prenda no se corresponde con su categoria");
+		}
+		if(prenda.tipo.isEmpty()){
+			throw new faltaTipoException()
+		}
+		if(prenda.material.isEmpty()){
+			throw new faltaMaterialException()
+		}
+		if(prenda.color.isEmpty()){
+			throw new faltaColorPException()
+		}
+		if(prenda.categoria == null){
+			throw new faltaCategoriaException()
+		}
+		
+		prendas.add(prenda);
+
+
+		
+	}
+
+	metodo compatibilidadTipoCategoriaValida(prenda){
+			prenda.Categoria.tipoCompatible(prenda.tipo);
+		}
+
+	metodo obtener_atuendo(){
+	 	armario.devolver_atuendos(prendas);
+	}
+
+class Armario
+	
+	atuendos[];
+
+	metodo devolver_atuendos(){
+
+	}
+
+class Categoria
+	tiposCompatibles[]
+
+	metodo tipoCompatible(String tipo){
+		return tipos.contains(tipo);
+	}
+	
+
+class Atuendo
+	prendas[];
+
+	
