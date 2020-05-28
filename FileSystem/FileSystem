@@ -1,0 +1,58 @@
+
+public interface LowLevelFileSystem {
+  int openFile(String path);
+
+  void closeFile(int fd);
+  int syncReadFile(int fd, byte[] bufferBytes, int bufferStart, int bufferEnd);
+  void syncWriteFile(int fd, byte[] bufferBytes, int bufferStart, int bufferEnd);
+  void asyncReadFile(int fd, byte[] buffer, int bufferStart, int bufferEnd,
+      Consumer<Integer> callback);
+}
+
+
+class FileSystemAdapter{
+	LowLevelFileSystem lowLevelFileSystem;
+
+	public FileSystemAdapter(LowLevelFileSystem lowLevelFileSystem){
+		this.lowLevelFileSystem=lowLevelFileSystem;
+	}
+
+	OpenedFile abrirArchivo(path){
+		int id = lowLevelFileSystem.openFile(path);
+		return new OpenedFile(id, lowLevelFileSystem);
+	}
+
+}
+
+class OpenedFile(){
+
+	int id;
+	LowLevelFileSystem lowLevelFileSystem;
+
+	public OpenedFile(int id, LowLevelFileSystem lowLevelFileSystem){
+			this.id = id;
+			this.lowLevelFileSystem = lowLevelFileSystem;
+	}
+
+	void closeFile(){
+		lowLevelFileSystem.closeFile(id);
+	}
+
+  	int syncReadFile(int size){
+  		lowLevelFileSystem.syncReadFile(id, new byte[size],0,size-1);
+  	}
+
+  	void syncWriteFile(int size){
+  		lowLevelFileSystem.syncWriteFile(id, new byte[size],0,size-1);
+  	}
+
+  	void asyncReadFile(int size){
+  		lowLevelFileSystem.asyncReadFile(id,new byte[size],0,size-1,Consumer<Integer> callback);
+  	}
+
+}
+
+
+
+
+
